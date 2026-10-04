@@ -593,6 +593,7 @@ pub const ReadError = error{
     ConnectionTimedOut,
     NetworkSubsystemFailed,
     Unexpected,
+    FileDescriptorNotASocket,
 };
 
 pub const WriteError = error{
@@ -615,6 +616,7 @@ pub const WriteError = error{
     SocketNotConnected,
     NetworkSubsystemFailed,
     Unexpected,
+    FileDescriptorNotASocket,
 };
 
 pub fn writev(fd: fd_t, iov: []const iovec_const) WriteError!usize {

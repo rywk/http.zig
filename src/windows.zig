@@ -119,6 +119,7 @@ pub const RecvError = error{
     ConnectionResetByPeer,
     SocketNotConnected,
     NetworkSubsystemFailed,
+    FileDescriptorNotASocket,
     Unexpected,
 };
 
@@ -138,10 +139,10 @@ pub fn recv(s: ws2_32.SOCKET, buf: []u8) RecvError!usize {
         => return error.ConnectionResetByPeer,
         .WSAENETDOWN => return error.NetworkSubsystemFailed,
         .WSAENOTCONN => return error.SocketNotConnected,
+        .WSAENOTSOCK => return error.FileDescriptorNotASocket,
         .WSAESHUTDOWN => return 0,
         .WSAEINTR, .WSAEINPROGRESS => unreachable,
         .WSAEINVAL, .WSAEFAULT => unreachable,
-        .WSAENOTSOCK => unreachable,
         .WSAEOPNOTSUPP => unreachable,
         else => |err| return unexpectedWSAError(err),
     }
@@ -157,6 +158,7 @@ pub const SendError = error{
     SystemResources,
     MessageTooBig,
     Unexpected,
+    FileDescriptorNotASocket,
 };
 
 /// Synchronous `send` for a `WSA_FLAG_OVERLAPPED` socket.
@@ -173,9 +175,9 @@ pub fn send(s: ws2_32.SOCKET, bytes: []const u8) SendError!usize {
         .WSAEACCES => return error.AccessDenied,
         .WSAENOBUFS => return error.SystemResources,
         .WSAEMSGSIZE => return error.MessageTooBig,
+        .WSAENOTSOCK => return error.FileDescriptorNotASocket,
         .WSAEINTR, .WSAEINPROGRESS => unreachable,
         .WSAEINVAL, .WSAEFAULT => unreachable,
-        .WSAENOTSOCK => unreachable,
         .WSAEOPNOTSUPP => unreachable,
         else => |err| return unexpectedWSAError(err),
     }
@@ -190,6 +192,7 @@ pub const ReadFileError = error{
     LockViolation,
     /// Known to be possible when:
     /// - Unable to read from disconnected virtual com port (Windows)
+    FileDescriptorNotASocket,
     AccessDenied,
     NotOpenForReading,
     Unexpected,
@@ -245,6 +248,7 @@ pub const WriteFileError = error{
     ConnectionResetByPeer,
     /// Known to be possible when:
     /// - Unable to write to disconnected virtual com port (Windows)
+    FileDescriptorNotASocket,
     AccessDenied,
     Unexpected,
 };
