@@ -298,7 +298,6 @@ pub fn Blocking(comptime S: type, comptime WSH: type) type {
                 };
 
                 if (done) {
-                    std.debug.print("COMPLETE REQUEST\n", .{});
                     // we have a complete request, time to process it
                     break;
                 }
