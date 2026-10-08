@@ -285,6 +285,11 @@ pub fn Blocking(comptime S: type, comptime WSH: type) type {
                             // socket, which would panic.
                             return .disown;
                         },
+                        error.ConnectionClosedByPeer => {
+                            // client abruptly finished the connection
+                            posix.close(socket);
+                            return .disown;
+                        },
                         else => {},
                     }
                     requestError(conn, err) catch {};
@@ -293,6 +298,7 @@ pub fn Blocking(comptime S: type, comptime WSH: type) type {
                 };
 
                 if (done) {
+                    std.debug.print("COMPLETE REQUEST\n", .{});
                     // we have a complete request, time to process it
                     break;
                 }

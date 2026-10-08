@@ -3,6 +3,7 @@ const builtin = @import("builtin");
 
 pub const testing = @import("testing.zig");
 pub const websocket = @import("websocket");
+pub const shutdown = @import("shutdown");
 
 const posix = @import("posix.zig");
 pub const routing = @import("router.zig");
@@ -345,6 +346,7 @@ pub fn Server(comptime H: type) type {
         }
 
         pub fn listen(self: *Self) !void {
+            shutdown.callback(*Self, self, Self.stop);
             // incase "stop" is waiting
             const io = self.io;
 

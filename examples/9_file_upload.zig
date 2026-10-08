@@ -28,7 +28,6 @@ pub fn main(init: std.process.Init) !void {
         },
     }, {});
     defer server.deinit();
-    defer server.stop();
 
     var router = try server.router(.{});
 

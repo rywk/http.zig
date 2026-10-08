@@ -15,10 +15,6 @@ pub fn main(init: std.process.Init) !void {
 
     defer server.deinit();
 
-    // ensures a clean shutdown, finishing off any existing requests
-    // see 09_shutdown.zig for how to to break server.listen with an interrupt
-    defer server.stop();
-
     var router = try server.router(.{});
 
     const restricted_route = &RouteData{ .restricted = true };

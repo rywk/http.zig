@@ -13,5 +13,9 @@
             .hash = "websocket-0.1.0-ZPISdUoQBQC7zw1uSwbOEYdxZiTxNN4nf9RlWBsN0_Nd",
         },
         // .websocket = .{ .path = "../websocket.zig" },
+        .shutdown = .{
+            .url = "git+https://codeberg.org/rywk/shutdown#87e9693ea9ef95a6b78989171bc02f7c233e208a",
+            .hash = "shutdown-0.0.0-95pyEgkfAAB79pmN2tClNTun6ELVACq-NGVCy_F7S_Bc",
+        },
     },
 }

@@ -752,7 +752,7 @@ pub const State = struct {
         const buf = self.buf;
         const n = try zig016HackRead(source, buf[len..]);
         if (n == 0) {
-            return false;
+            return error.ConnectionClosedByPeer;
         }
         len = len + n;
         self.len = len;
